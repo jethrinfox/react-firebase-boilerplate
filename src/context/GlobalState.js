@@ -30,7 +30,7 @@ export const GlobalProvider = ({ children }) => {
     }, [user])
 
 
-    async function signIn(provider) {
+    async function signIn(provider, email, password) {
         switch (provider) {
             case 'google':
                 await auth.signInWithPopup(googleProvider)
@@ -43,6 +43,22 @@ export const GlobalProvider = ({ children }) => {
                 break;
             case 'anonymous':
                 await auth.signInAnonymously()
+                break;
+            case 'password':
+                try {
+                    await auth.createUserWithEmailAndPassword(email, password)
+
+                } catch (error) {
+                    if (error.code === "auth/email-already-in-use") {
+                        try {
+                            await auth.signInWithEmailAndPassword(email, password)
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    } else {
+                        console.error(error);
+                    }
+                }
                 break;
             default:
                 break;

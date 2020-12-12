@@ -4,6 +4,7 @@ import SignIn from './components/SignIn';
 import SignOut from './components/SignOut';
 import { GlobalContext } from './context/GlobalState';
 
+
 function App() {
 
   const { user } = useContext(GlobalContext)
@@ -12,7 +13,9 @@ function App() {
     <div className="App">
       <Header />
       <main>
+
         {user ? <SignOut /> : <SignIn />}
+
       </main>
     </div>
   );
